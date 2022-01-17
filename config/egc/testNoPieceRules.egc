@@ -1,0 +1,13 @@
+Coordinate type : SQUARE
+xMax : 25
+yMax : 20
+
+Locations :
+	(5, 12) exit
+	
+Piece descriptors :
+
+	
+Rules :
+	SCORE 10
+	TURN_LIMIT 20

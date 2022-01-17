@@ -1,0 +1,42 @@
+/* Release 1 Square Game 1 */
+Coordinate type: SQUARE
+xMax : 15
+yMax : 15
+
+Locations:
+    /* Player 1 */
+    (5, 5) player1 horse
+    (5, 8) player1 dog
+    (5, 13) player1 dog
+    (7, 6) player1 horse
+    (8, 7) player1 bird
+    (9, 5) player1 frog
+    (9, 8) player1 frog
+    (9, 13) player1 snail
+    (11, 11) player1 bird
+    (11, 12) player1 dog
+    
+    /* Player 2 */
+    (10, 10) player2 bird
+    (10, 11) player2 bird
+    (10, 12) player2 bird
+    (11, 5) player2 bird
+    (11, 8) player2 bird
+    (11, 10) player2 bird
+    (11, 15) player2 bird
+    (12, 6) player2 bird
+    (12, 10) player2 bird
+    (12, 12) player2 bird
+    
+    (8, 10) exit
+    
+Piece descriptors:
+    frog omni [distance 3]
+    horse omni [distance 5, value 1]
+    bird omni [distance 4]
+    snail omni [distance 1]
+    dog omni [distance 4]
+    
+Rules:
+    score 2
+    turn_limit 3

@@ -1,0 +1,17 @@
+Coordinate type : SQUARE
+xMax : 30
+yMax : 30
+
+Locations :
+	(1,1) exit
+
+Piece descriptors :
+	BIRD omni [distance 30]
+	DOG omni [distance 3]
+	FROG omni [distance 5]
+	HORSE omni [distance 5]
+	SNAIL omni [distance 1]
+
+Rules :
+	SCORE 10
+	TURN_LIMIT 5

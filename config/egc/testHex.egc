@@ -1,0 +1,16 @@
+Coordinate type : HEX
+xMax : 0
+yMax : 0
+
+Locations :
+	(3,4) clear player2 snail
+	(4,4) exit
+	
+Piece descriptors :
+	SNAIL omni [distance 10]
+	HORSE omni [distance 100]
+	FROG omni [distance 20]
+
+Rules :
+	SCORE 10
+	TURN_LIMIT 20

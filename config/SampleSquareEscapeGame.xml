@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<escapeGameInitializer>
+	<coordinateType>SQUARE</coordinateType>
+    <!-- Board items -->
+    <xMax>20</xMax>
+    <yMax>25</yMax>
+    <locationInitializers>
+        <x>3</x>
+        <y>4</y>
+        <locationType>CLEAR</locationType>
+    </locationInitializers>
+    <locationInitializers>
+        <x>5</x>
+        <y>6</y>
+        <locationType>CLEAR</locationType>
+    </locationInitializers>
+    <locationInitializers>
+        <x>9</x>
+        <y>9</y>
+        <locationType>EXIT</locationType>
+    </locationInitializers>
+    
+    <pieceTypes>
+        <movementPattern>OMNI</movementPattern>
+        <pieceName>FROG</pieceName>
+        <attributes>
+            <id>DISTANCE</id>
+            <attrType>INTEGER</attrType>
+            <intValue>5</intValue>
+        </attributes>
+        <attributes>
+            <id>UNBLOCK</id>
+            <attrType>BOOLEAN</attrType>
+            <booleanValue>true</booleanValue>
+        </attributes>
+        <attributes>
+            <id>JUMP</id>
+            <attrType>BOOLEAN</attrType>
+            <booleanValue>true</booleanValue>
+        </attributes>
+    </pieceTypes>
+    <pieceTypes>
+        <movementPattern>OMNI</movementPattern>
+        <pieceName>HORSE</pieceName>
+        <attributes>
+            <id>UNBLOCK</id>
+            <attrType>BOOLEAN</attrType>
+            <booleanValue>false</booleanValue>
+        </attributes>
+        <attributes>
+            <id>DISTANCE</id>
+            <attrType>INTEGER</attrType>
+            <intValue>20</intValue>
+        </attributes>
+    </pieceTypes>
+</escapeGameInitializer>
