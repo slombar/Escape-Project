@@ -1,0 +1,294 @@
+Game Tests
+------------------------
+X Test that the game manager is not null
+X Test that the exception when there are no piece rules works
+X Test that a valid coordinate can be made on an infinite hex board
+X Test that a valid coordinate can be made on a square board
+X Test that an invalid coordinate throws expected error
+X Test that getting a piece that doesn't exist returns null
+X Test that a piece can be retrieved by a newly made coordinate not stored in hashmap
+X Test placing a piece and verify that it is indeed in the right location on the board
+X Test getting a piece at an invalid coordinate, should return null
+X Test a game that ends with P1 winning after successfully removing 10 pieces.
+X Test that when a piece exits the board the score is recorded properly
+X Test playing a game to the end where there is a tie (turn limit reached with equal scores)
+
+#hexTest
+    EscapeGameBuilder (testHex.egc)
+    EscapeGameManager (EscapeGameBuilder)
+    expected: Escape Game Manager -> not null
+
+#noPieceRules
+    Expected String "No Piece Rules."
+    EscapeGameBuilder (testNoPieceRules.egc)
+    EscapeGameManager (EscapeGameBuilder)
+    expected: EscapeException on EscapeGameBuilder.makeGameManager()
+    expected: ErrorMessage -> "No Piece Rules."
+
+#hexValidCoordinate
+    EscapeGameBuilder (testHex.egc)
+    EscapeGameManager (EscapeGameBuilder)
+    Coordinate makeCoordinate(-3,-3)
+    expected: Coordinate -> not null
+
+#squareValid
+    EscapeGameBuilder (testSquare.egc)
+    EscapeGameManager (EscapeGameBuilder)
+    Coordinate makeCoordinate(19,20)
+    expected: Coordinate -> not null
+
+#squareNotValid
+    EscapeGameBuilder (testSquare.egc)
+    EscapeGameManager (EscapeGameBuilder)
+    Piece -> getPieceAt Coordinate (3,3)
+    expected: Piece -> null
+
+#getPieceAtNull
+    EscapeGameBuilder (testSquare.egc)
+    EscapeGameManager (EscapeGameBuilder)
+    Coordinate makeCoordinate(21,1)
+    expected: Coordinate -> null
+
+#getPieceAtNewCoord
+    EscapeGameBuilder (testSquare.egc)
+    EscapeGameManager (EscapeGameBuilder)
+    Coordinate -> (3,3)
+    Piece -> (PLAYER1,FROG)
+    placePieceAt(Piece,Coordinate) [P1's FROG at 3,3]
+    Coordinate2 -> (3,3)
+    expected: getPieceAt(Coordinate2) -> not null
+
+#placePiece
+    EscapeGameBuilder (testSquare.egc)
+    EscapeGameManager (EscapeGameBuilder)
+    Coordinate -> (1,1)
+    PieceA -> (PLAYER1, DOG)
+    placePiece(PieceA, Coordinate) [P1'S DOG at 1,1]
+    PieceB -> getPiece(Coordinate)
+    expected: PieceB -> not null
+    expected: PieceA == PieceB
+
+#getPieceAtInvalid
+    EscapeGameBuilder (testSquare.egc)
+    EscapeGameManager (EscapeGameBuilder)
+    Coordinate makeCoordinate(30,30)
+    expected: Coordinate -> null
+
+
+#tenPieceGame
+    EscapeGameBuilder (testSquare.egc)
+    EscapeGameManager (EscapeGameBuilder)
+    Make two pieces for p1 and p2
+    while move is true (ie, a valid move is performed)
+            move piece onto exit, alternating between p1 and p2 to play game
+            check that piece is removed
+    expected: winner -> P1 with score of 10
+
+#testAccurateScore
+    EscapeGameBuilder (testSquare.egc)
+    EscapeGameManager (EscapeGameBuilder)
+    Make two pieces for p1 and p2
+    move p1 onto exit
+    expected: p1 score -> 1
+    move p2 onto exit
+    expected: p2 score -> 1
+
+#tie
+    EscapeGameBuilder (testSquare.egc)
+    EscapeGameManager (EscapeGameBuilder)
+    Make two pieces for p1 and p2
+        move p1 onto exit
+        expected: p1 score -> 1
+        move p2 onto exit
+        expected: p2 score -> 1
+
+    Place two pieces on board for p1 and p2
+    Move pieces until TURN_LIMIT [5] is reached
+    expected: isGameOver -> true;
+    expected output: Game Over
+
+
+AStar Tests
+-----------------
+X Test a path from (1,1) to (2,2) on a square board
+X Test a path from (1,2) to (6,7) on a square board
+X Test a path from (8,1) to (4,5) on a square board with a piece in the way
+X Test a path from (1,6) to (6,6) with a HORSE on a square board
+X Test a path from (10,10) to (1,1) on a square board that is too long for HORSE's distance value
+X Test a path from (3,6) to (5,6) on a square board with a piece in the way
+X Test a path from (5,1) to (5,8) on a square board with a piece in the way that makes this path too long for DOG's distance
+X Test a path from (4,4) to (8,8) on a square board with a 4 pieces in the way, at each cardinal direction
+X Test a path from (0,0) to (21,21) on a hex board that is too long for FROG's distance value
+X Test a path from (0,-3) to (0,4) on a hex board [testing negative coordinates getting accurate path]
+X Test a path from (99,0) to (0,0) on a hex board [testing if distance value for horse is working]
+X Test a path from (7,0) to (0,0) on a hex board with a piece in the way
+X Test a path from (14,13) to (0,0) on a hex board that is too long for SNAIL's distance value
+X Test a path from two coordinates that are the same (0,2)
+
+#SquarePath1
+    EscapeGameBuilder (testSquare.egc)
+    EscapeGameManager (EscapeGameBuilder)
+    Piece p -> (PLAYER1, FROG)
+    placePieceAt(p, (1,1))
+    current board -> getBoard
+    current piece types -> getTypeMap
+    AStar pathfinder = AStar(p.getName, current board, current piece types)
+    List<Coordinate> path = pathfinder.findPath((1,1), (2,2))
+    expected: path -> not null
+    
+#SquarePath2
+    EscapeGameBuilder (testSquare.egc)
+    EscapeGameManager (EscapeGameBuilder)
+    Piece p -> (PLAYER1, FROG)
+    placePieceAt(p, (1,2))
+    current board -> getBoard
+    current piece types -> getTypeMap
+    AStar pathfinder = AStar(p.getName, current board, current piece types)
+    List<Coordinate> path = pathfinder.findPath((1,2), (6,7))
+    expected: path -> not null
+    
+#SquarePath3
+    EscapeGameBuilder (testSquare.egc)
+    EscapeGameManager (EscapeGameBuilder)
+    Piece p -> (PLAYER1, FROG)
+    placePieceAt(p, (8,1))
+    placePieceAt((PLAYER2, HORSE), (5,4))
+    current board -> getBoard
+    current piece types -> getTypeMap
+    AStar pathfinder = AStar(p.getName, current board, current piece types)
+    List<Coordinate> path = pathfinder.findPath((8,1), (4,5))
+    expected: path -> not null
+    
+#SquarePath4
+    EscapeGameBuilder (testSquare.egc)
+    EscapeGameManager (EscapeGameBuilder)
+    Piece p -> (PLAYER1, HORSE)
+    placePieceAt(p, (1,6))
+    current board -> getBoard
+    current piece types -> getTypeMap
+    AStar pathfinder = AStar(p.getName, current board, current piece types)
+    List<Coordinate> path = pathfinder.findPath((1,6), (6,6))
+    expected: path -> not null
+    
+#SquarePath5
+    EscapeGameBuilder (testSquare.egc)
+    EscapeGameManager (EscapeGameBuilder)
+    Piece p -> (PLAYER1, HORSE)
+    placePieceAt(p, (10,20))
+    current board -> getBoard
+    current piece types -> getTypeMap
+    AStar pathfinder = AStar(p.getName, current board, current piece types)
+    List<Coordinate> path = pathfinder.findPath((10,20), (1,1))
+    expected: path -> null
+    
+#SquarePath6
+    EscapeGameBuilder (testSquare.egc)
+    EscapeGameManager (EscapeGameBuilder)
+    Piece p -> (PLAYER1, BIRD)
+    placePieceAt(p, (3,6))
+    placePieceAt((PLAYER2, FROG), (4,6))
+    current board -> getBoard
+    current piece types -> getTypeMap
+    AStar pathfinder = AStar(p.getName, current board, current piece types)
+    List<Coordinate> path = pathfinder.findPath((3,6), (5,6))
+    expected: path -> not null
+    
+#SquarePath7
+    EscapeGameBuilder (testSquare.egc)
+    EscapeGameManager (EscapeGameBuilder)
+    Piece p -> (PLAYER1, FROG)
+    placePieceAt(p, (5,1))
+    placePieceAt((PLAYER2,FROG), (5,5))
+    current board -> getBoard
+    current piece types -> getTypeMap
+    AStar pathfinder = AStar(p.getName, current board, current piece types)
+    List<Coordinate> path = pathfinder.findPath((5,1), (5,8))
+    expected: path -> null
+    
+#SquarePath8
+    EscapeGameBuilder (testSquare.egc)
+    EscapeGameManager (EscapeGameBuilder)
+    Piece p -> (PLAYER1, HORSE)
+    placePieceAt(p, (4,4))
+    placePieceAt((PLAYER 2, FROG), (8,7))
+    placePieceAt((PLAYER 2, FROG), (7,8))
+    placePieceAt((PLAYER 2, FROG), (9,8))
+    placePieceAt((PLAYER 2, FROG), (8,9))
+    current board -> getBoard
+    current piece types -> getTypeMap
+    AStar pathfinder = AStar(p.getName, current board, current piece types)
+    List<Coordinate> path = pathfinder.findPath((4,4), (8,8))
+    expected: path -> null
+    
+#HexPath1
+    EscapeGameBuilder (testHex.egc)
+    EscapeGameManager (EscapeGameBuilder)
+    Piece p -> (PLAYER1, FROG)
+    placePieceAt(p, (0,0))
+    current board -> getBoard
+    current piece types -> getTypeMap
+    AStar pathfinder = AStar(p.getName, current board, current piece types)
+    List<Coordinate> path = pathfinder.findPath((0,0), (21,21))
+    expected: path -> null
+    
+#HexPath2
+    EscapeGameBuilder (testHex.egc)
+    EscapeGameManager (EscapeGameBuilder)
+    Piece p -> (PLAYER1, FROG)
+    placePieceAt(p, (0,-3))
+    current board -> getBoard
+    current piece types -> getTypeMap
+    AStar pathfinder = AStar(p.getName, current board, current piece types)
+    List<Coordinate> path = pathfinder.findPath((0,-3), (0,4))
+    expected: path -> not null
+    
+#HexPath3
+    EscapeGameBuilder (testHex.egc)
+    EscapeGameManager (EscapeGameBuilder)
+    Piece p -> (PLAYER1, HORSE)
+    placePieceAt((PLAYER2, FROG),(1,0))
+    placePieceAt(p, (99,0))
+    current board -> getBoard
+    current piece types -> getTypeMap
+    AStar pathfinder = AStar(p.getName, current board, current piece types)
+    List<Coordinate> path = pathfinder.findPath((99,0), (0,0))
+    expected: path -> not null
+    
+#HexPath4
+    EscapeGameBuilder (testHex.egc)
+    EscapeGameManager (EscapeGameBuilder)
+    Piece p -> (PLAYER1, FROG)
+    placePieceAt(p, (7,0))
+    placePieceAt((PLAYER2,FROG), (1,0))
+    current board -> getBoard
+    current piece types -> getTypeMap
+    AStar pathfinder = AStar(p.getName, current board, current piece types)
+    List<Coordinate> path = pathfinder.findPath((7,0), (0,0))
+    expected: path -> not null
+    
+#HexPath5
+    EscapeGameBuilder (testHex.egc)
+    EscapeGameManager (EscapeGameBuilder)
+    Piece p -> (PLAYER1, SNAIL)
+    placePieceAt(p, (14,13))
+    placePieceAt((PLAYER 1,FROG), (0,1))
+    current board -> getBoard
+    current piece types -> getTypeMap
+    AStar pathfinder = AStar(p.getName, current board, current piece types)
+    List<Coordinate> path = pathfinder.findPath((14,13), (0,0))
+    expected: path -> null
+    
+#HexSameCoordinate
+    EscapeGameBuilder (testHex.egc)
+    EscapeGameManager (EscapeGameBuilder)
+    Piece p -> (PLAYER1, HORSE)
+    placePieceAt(p, (0,2))
+    current board -> getBoard
+    current piece types -> getTypeMap
+    AStar pathfinder = AStar(p.getName, current board, current piece types)
+    List<Coordinate> path = pathfinder.findPath((0,2), (0,2))
+    expected: path -> null
+
+
+
+
